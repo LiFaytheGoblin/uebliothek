@@ -2,9 +2,21 @@
 
 > Store all your training exercises
 
+## Prerequesites
+Have mongodb installed.
+
+## Store
+``` bash
+cd src
+node store.js
+```
+
 ## Build Setup
 
 ``` bash
+# run mongodb
+brew services start mongodb
+
 # install dependencies
 npm install
 

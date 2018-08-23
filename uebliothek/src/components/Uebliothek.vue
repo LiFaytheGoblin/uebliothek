@@ -6,10 +6,9 @@
     </header>
     <nav>
       <div class="search">
-        <input v-model="searchInput" placeholder="Search">
-        <!-- {{searchInput}} -->
+        <input v-model="searchInput" placeholder="Search by tag" @keyup.enter="display(searchInput)">
       </div>
-      <div class="button" title="Show all activities ever added" @click="displayAllActivities()">Show all</div>
+      <div class="button" title="Show all activities ever added" @click="display()">Show me all ativities</div>
       <div class="button new" title="Add new activity" @click="addNewActivity()">+</div>
     </nav>
   </div>
@@ -62,8 +61,9 @@ export default {
     addNewActivity: function () {
       console.log('add')
     },
-    displayAllActivities: function () {
-      console.log('display all')
+    display: function (searchTerm) {
+      if (!searchTerm) console.log('display all')
+      else console.log('display all', searchTerm)
     }
   }
 }
@@ -142,7 +142,6 @@ section, footer {
 
 .search > input {
   margin: 0 0 0 5%;
-  width: 100px;
   padding:8px 15px;
   background:#e9e9e9;
   box-shadow: 0 0 1px 1px #e9e9e9;
