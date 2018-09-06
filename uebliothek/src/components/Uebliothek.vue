@@ -6,7 +6,7 @@
     </header>
     <nav>
       <div class="search">
-        <input v-model="searchInput" placeholder="Search by tag" @keyup.enter="display(searchInput)">
+        <input v-model="searchInput" placeholder="Name || (#tag1 ... #tagN)" @keyup.enter="display(searchInput)">
       </div>
       <div class="button" title="Show all activities ever added" @click="display()">Show me all ativities</div>
       <div class="button new" title="Add new activity" @click="addNewActivity()">+</div>
@@ -51,19 +51,67 @@ export default {
   name: 'Uebliothek',
   data () {
     return {
-      searchInput: ''
+      searchInput: '',
+      tagMarker: '#'
     }
   },
   methods: {
+    displayError: function (errorText) {
+      alert(errorText)
+    },
+    clearTextFrom: function (text, string) {
+      const clearedText = text.split(string).join('')
+      console.log('cleared text is ', clearedText)
+      return clearedText
+    },
+    deriveTagsFromText: function (text, marker) {
+      const tags = text.split('').filter(word => {
+        return word.includes(marker)
+      })
+      return this.removeDuplicates(tags)
+    },
+    removeDuplicates: function (array) {
+      return [ ...new Set(array) ]
+    },
     deleteTag: function () {
       console.log('delete')
     },
     addNewActivity: function () {
-      console.log('add')
+      const name = prompt('Name your exercise')
+      if (name === null) return
+      if (!name) {
+        this.displayError('You need to provide a name')
+        return
+      }
+      const rawDescription = prompt(`Provide a description. You can add tags by marking them with a ${this.tagMarker}. Example: "Stand on both feet. #Stretch your #arms to the sky."`)
+      if (rawDescription === null) return
+      console.log('raw is ', rawDescription)
+      const description = rawDescription ? this.clearTextFrom(rawDescription, this.tagMarker) : ''
+      const tags = this.deriveTagsFromText(rawDescription, this.tagMarker)
+
+      console.log('Adding: ', name, description, tags)
+      // store.createActivity(name, description, tags)
     },
     display: function (searchTerm) {
-      if (!searchTerm) console.log('display all')
-      else console.log('display all', searchTerm)
+      if (!searchTerm) {
+        if (searchTerm === ' ') {
+          return
+        }
+        console.log('display all')
+      } else {
+        const searchBy = searchTerm.includes(this.tagMarker) ? 'tags' : 'name'
+        console.log(`display all with ${searchBy} `, searchTerm)
+        if (searchBy === 'name') {
+          // store.searchByName(searchTerm)
+        } else {
+          const allWords = searchTerm.split(' ')
+          let allTags = allWords.map(word => {
+            if (word.includes(this.tagMarker)) return word.substr(1)
+          })
+          console.log('Found tags ', allTags)
+          // store.searchByTags(allTags)
+        }
+      }
     }
   }
 }
