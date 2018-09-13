@@ -65,7 +65,8 @@ export default {
       return clearedText
     },
     deriveTagsFromText: function (text, marker) {
-      const tags = text.split('').filter(word => {
+      if (!text || !marker) return []
+      const tags = text.split(' ').filter(word => {
         return word.includes(marker)
       })
       return this.removeDuplicates(tags)
