@@ -11,6 +11,7 @@ app.use(cors())
 app.get('/exercises', (req, res) => {
   res.send(
     [{
+      id: 1,
       name: 'A name',
       description: 'This is my desc tag',
       tags: ['tag']

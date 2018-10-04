@@ -13,40 +13,17 @@
     </nav>
   </div>
   <div class="container bottomContainer">
-    <section>
-      <div class="line headings">
-        <div class="lineElement">
-          Name
-        </div>
-        <div class="lineElement">
-          Description
-        </div>
-        <div class="lineElement">
-          Tags
-        </div>
-      </div>
-      <div class="line content">
-        <div class="lineElement">
-          activity.name
-        </div>
-        <div class="lineElement">
-          activity.description
-        </div>
-        <div class="lineElement">
-          <div v-for="tag in ['un', 'deux']" :key="tag" class="tagWrapper" @click="deleteTag(tag)">
-            <div class="triangle"></div><div class="tag"><span class="tagName">#{{tag}}</span><span class="highlight">&#x25CF;</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <Exercises />
     <footer>
-      Uebliothek | Linda Fernsel, 2018 | License: MIT
+      Uebliothek | 2018 | License: MIT
     </footer>
   </div>
   </div>
 </template>
 
 <script>
+import Exercises from './Exercises.vue'
+
 export default {
   name: 'Uebliothek',
   data () {
@@ -54,6 +31,9 @@ export default {
       searchInput: '',
       tagMarker: '#'
     }
+  },
+  components: {
+    Exercises
   },
   methods: {
     displayError: function (errorText) {
@@ -156,11 +136,6 @@ section, footer {
   margin: 2% 0 0 0;
 }
 
-.line {
-  display: flex;
-  align-items: stretch;
-}
-
 .button {
   padding: 5px;
   box-shadow: 0 0 2px 2px #e9e9e9;
@@ -202,22 +177,8 @@ section, footer {
   box-shadow: 0 0 1px 1px #99f999;
 }
 
-.headings {
-  font-weight: bold;
-  border-bottom: 1px solid #000;
-}
-
 .content:nth-child(2n) {
   background-color: #e9e9e9;
-}
-
-.lineElement {
-  width: 30%;
-  padding: 5px;
-}
-
-.lineElement:nth-child(2n+0) {
-  margin: 0 1% 0 1%;
 }
 
 .tagWrapper {
